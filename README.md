@@ -39,14 +39,20 @@ Commit your code regularly and use descriptive messages. This helps both you (in
 Demonstrate your understanding of this Sprint's concepts by answering the following free-form questions. Edit this document to include your answers after each question. Make sure to leave a blank line above and below your answer so it is clear and easy to read by your Team Lead.
 
 - [ ] Mention two parts of Express that you learned about this week.
+1. They are libraries that can be used with other Node modules, similar to React for Javascript.
+2. Provides extra functionality like Routing, Middleware Support and cleaner API.
 
 - [ ] Describe Middleware?
+Middleware are functions having access to a request object, the response object, and other functions in the apps req/res cycle. Chained functions.
 
 - [ ] Describe a Resource?
+Resource help you to complete node.js code using applications such as npm or yarn.
 
 - [ ] What can the API return to help clients know if a request was successful?
+res.status(200 - 500)
 
 - [ ] How can we partition our application into sub-applications?
+Helps to keep your code cleaner and makes it easier to expand.
 
 ## Minimum Viable Product
 
