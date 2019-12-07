@@ -51,6 +51,37 @@ router.post('/', (req, res) => {
         })
 });
 
+router.put('/:id', validateProjectId, (req, res) => {
+    const { id } = req.params;
+    const text = req.body;
+    
+    Project.update(id, text)
+        .then(updated => {
+            if(updated){
+                console.log(updated);
+                Project.get(id)
+                    .then(newText => {
+                        console.log(newText);
+                        if(newText){
+                            res
+                                .status(201)
+                                .json(newText)
+                        } else {
+                            res
+                                .status(404)
+                                .json({error:"Error with update."})
+                        }
+                    })
+                    .catch(error => {
+                        console.log(error);
+                        res
+                            .status(500)
+                            .json({error:"Error reaching server."})
+                    })
+            }
+        })
+});
+
 router.delete('/:id', (req, res) => {
     const { id } = req.params;
     Project.remove(id)
@@ -62,7 +93,7 @@ router.delete('/:id', (req, res) => {
             } else {
                 res
                     .status(404)
-                    .json({error:"That entry ID does not exist."})
+                    .json({error:"ID does not exist."})
             }
         })
         .catch(error => {

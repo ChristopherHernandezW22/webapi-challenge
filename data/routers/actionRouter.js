@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
             console.log(error);
             res
                 .status(500)
-                .json({error:"There was a problem reaching the server."})
+                .json({error:"Failed to reach the server."})
         })
 });
 
@@ -30,7 +30,7 @@ router.get('/:id', validateActionId, (req, res) => {
             console.log(error);
             res
                 .status(500)
-                .json({error:"There was a problem reaching the server."})
+                .json({error:"Failed to reach the server."})
         })
 });
 
@@ -47,7 +47,37 @@ router.post('/', (req, res) => {
             console.log(error);
             res
                 .status(500)
-                .json({error:"There was a problem reaching the server."})
+                .json({error:"Failed to reach the server."})
+        })
+});
+
+router.put('/:id', validateActionId, (req, res) => {
+    const { id } = req.params;
+    const text = req.body;
+    Action.update(id, text)
+        .then(updated => {
+            if(updated){
+                console.log(updated);
+                Action.get(id)
+                    .then(newText => {
+                        console.log(newText);
+                        if(newText){
+                            res
+                                .status(201)
+                                .json(newText)
+                        } else {
+                            res
+                                .status(404)
+                                .json({error:"Error making update."})
+                        }
+                    })
+                    .catch(error => {
+                        console.log(error);
+                        res
+                            .status(500)
+                            .json({error:"Error reaching server."})
+                    })
+            }
         })
 });
 
@@ -58,11 +88,11 @@ router.delete('/:id', (req, res) => {
             if(removed) {
                 res
                     .status(204)
-                    .json({message: "The entry has been deleted."})
+                    .json({message: "ID has been deleted."})
             } else {
                 res
                     .status(404)
-                    .json({error:"That entry ID does not exist."})
+                    .json({error:"That ID does not exist."})
             }
         })
         .catch(error => {
@@ -83,14 +113,14 @@ function validateActionId(req, res, next) {
             } else {
                 res
                     .status(404)
-                    .json({error:"User ID does not exist."})
+                    .json({error:"ID does not exist."})
             }
         })
         .catch(error => {
             console.log(error);
             res
                 .status(500)
-                .json({error:"There was a problem reaching the server."})
+                .json({error:"Failed to reach the server."})
         })
 }
 
